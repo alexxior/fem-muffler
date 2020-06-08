@@ -1,6 +1,5 @@
 *.grd
 xstr.txt
-tlumik.grd
 tlumik/*
 !tlumik/case.txt
 !tlumik/ELMERSOLVER_STARTINFO
