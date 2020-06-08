@@ -1,4 +1,4 @@
-$ freq = 1@
+$ freq = 1 @
 Header
   CHECK KEYWORDS Warn
   Mesh DB "." "."
@@ -18,7 +18,6 @@ Simulation
   Timestepping Method = BDF
   BDF Order = 1
   Solver Input File = case.sif
-  Post File = case.vtu
 End
 
 Constants

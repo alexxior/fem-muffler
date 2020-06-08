@@ -1,6 +1,8 @@
 *.grd
-fstr.txt
 xstr.txt
+tlumik.grd
 tlumik/*
 !tlumik/case.txt
 !tlumik/ELMERSOLVER_STARTINFO
+plaski/*
+!plaski/ELMERSOLVER_STARTINFO
