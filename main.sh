@@ -4,7 +4,7 @@
 fstep=$3
 echo "Freq vec:  [100 :" $fstep ": 500] Hz"
 freq=()
-for i in $(seq 100 $fstep 500);do freq+=($i); done
+for i in $(seq 100 $fstep 500);do freq+=($i);done
 fstr=$(IFS=$' '; echo "${freq[*]}")
 sed "1s/@/$fstr/" tlumik/case.txt > tlumik/case.sif
 number=$(echo "400/$fstep + 1" | bc)
