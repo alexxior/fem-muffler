@@ -11,7 +11,7 @@ number=$(echo "400/$fstep + 1" | bc)
 sed -i "15s/@/$number/" tlumik/case.sif
 rm -f tlumik/*.dat plaski/*.dat
 cp tlumik/case.sif plaski/case.sif
-# wykonaj plan eksperymentu: 
+# wykonaj plan eksperymentu:
 echo "Calc for:   x1  |  x2  |  x-coords (meters)"
 for x1 in $(seq 0.05 $1 0.4);do
 	for x2 in $(seq 0.2 $2 1);do
