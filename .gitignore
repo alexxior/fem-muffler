@@ -5,3 +5,4 @@ tlumik/*
 !tlumik/ELMERSOLVER_STARTINFO
 plaski/*
 !plaski/ELMERSOLVER_STARTINFO
+*.code-workspace
