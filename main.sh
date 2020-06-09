@@ -6,11 +6,13 @@ echo "Freq vec:  [100 :" $fstep ": 500] Hz"
 freq=()
 for i in $(seq 100 $fstep 500);do freq+=($i);done
 fstr=$(IFS=$' '; echo "${freq[*]}")
-sed "1s/@/$fstr/" tlumik/case.txt > tlumik/case.sif
+sed "1s/@/$fstr/" case.txt > tlumik/case.sif
 number=$(echo "400/$fstep + 1" | bc)
 sed -i "15s/@/$number/" tlumik/case.sif
 rm -f tlumik/*.dat plaski/*.dat xvec.txt
 cp tlumik/case.sif plaski/case.sif
+echo -e "case.sif\n1" > tlumik/ELMERSOLVER_STARTINFO
+cp tlumik/ELMERSOLVER_STARTINFO plaski/ELMERSOLVER_STARTINFO
 # wykonaj plan eksperymentu:
 echo "--------------EXPERIMENT CCI---------------"
 echo "Calc for:   x1  |  x2  |  x-coords (meters)"
@@ -41,6 +43,6 @@ for x1 in $(seq 0.05 $1 0.4);do
 		fi
 	done
 done
-sed -e 's/\s\+/,/g' ./tlumik/WyjscieTlumik.dat > ./tlumik/modified.txt
-sed -e 's/\s\+/,/g' ./plaski/WyjscieTlumik.dat > ./plaski/modified.txt
+sed -e 's/\s\+/,/g' tlumik/WyjscieTlumik.dat > tlumik/modified.txt
+sed -e 's/\s\+/,/g' plaski/WyjscieTlumik.dat > plaski/modified.txt
 octave FunkcjaCelu.m

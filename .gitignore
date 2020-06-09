@@ -2,9 +2,6 @@
 xstr.txt
 xvec.txt
 WynikOptimum.txt
-tlumik/*
-!tlumik/case.txt
-!tlumik/ELMERSOLVER_STARTINFO
-plaski/*
-!plaski/ELMERSOLVER_STARTINFO
+tlumik
+plaski
 *.code-workspace
