@@ -5,7 +5,5 @@ function replace(x1,x2)
 	for i = xvec
 		xstr = [xstr, ' ', num2str(i)];
 	end
-	fid=fopen("xstr.txt",'w');
-	fprintf(fid, xstr);
-	fclose(fid);
+	disp(xstr);
 end

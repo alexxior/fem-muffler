@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# przygotuj wektor czestotliwosci:
+# stworz wektor czestotliwosci:
 fstep=$3
 echo "Freq vec:  [100 :" $fstep ": 500] Hz"
 freq=()
@@ -9,17 +9,23 @@ fstr=$(IFS=$' '; echo "${freq[*]}")
 sed "1s/@/$fstr/" tlumik/case.txt > tlumik/case.sif
 number=$(echo "400/$fstep + 1" | bc)
 sed -i "15s/@/$number/" tlumik/case.sif
-rm -f tlumik/*.dat plaski/*.dat
+rm -f tlumik/*.dat plaski/*.dat xvec.txt
 cp tlumik/case.sif plaski/case.sif
 # wykonaj plan eksperymentu:
+echo "--------------EXPERIMENT CCI---------------"
+echo "Calc for:   x1  |  x2  |  x-coords (meters)"
+# tutaj funkcja do wywolania planu eksperymentu
+#
+# wykonaj omiatanie z dyskretnym krokiem parametrow:
+echo "--------------DISCRETE SWEEP---------------"
 echo "Calc for:   x1  |  x2  |  x-coords (meters)"
 for x1 in $(seq 0.05 $1 0.4);do
 	for x2 in $(seq 0.2 $2 1);do
 		if [ $(echo "$x2 > 2*$x1" | bc) -eq 1 ];then
 			# obliczenia dla tlumika:
-			octave --silent --eval "replace($x1,$x2)"
-			xline=$(cat xstr.txt)
-			echo "          " $x1 "|" $x2 " | " $xline
+			xline=$(octave --silent --eval "replace($x1,$x2)")
+			# echo $x1 $x2 >> xvec.txt
+			echo "          " $x1 "|" $x2 "| " $xline
 			sed "4s/@/$xline/" tlumik.txt > tlumik.grd
 			ElmerGrid 1 2 tlumik.grd > /dev/null
 			cd tlumik
@@ -35,3 +41,6 @@ for x1 in $(seq 0.05 $1 0.4);do
 		fi
 	done
 done
+sed -e 's/\s\+/,/g' ./tlumik/WyjscieTlumik.dat > ./tlumik/modified.txt
+sed -e 's/\s\+/,/g' ./plaski/WyjscieTlumik.dat > ./plaski/modified.txt
+octave FunkcjaCelu.m
