@@ -25,7 +25,7 @@ for x1 in $(seq 0.05 $1 0.4);do
 	for x2 in $(seq 0.2 $2 1);do
 		if [ $(echo "$x2 > 2*$x1" | bc) -eq 1 ];then
 			# obliczenia dla tlumika:
-			xline=$(octave --silent --eval "data/replace($x1,$x2)")
+			xline=$(octave --silent --eval "replace($x1,$x2)")
 			# echo $x1 $x2 >> xvec.txt
 			echo "          " $x1 "|" $x2 "| " $xline
 			sed "4s/@/$xline/" data/tlumik.txt > tlumik.grd
@@ -45,4 +45,4 @@ for x1 in $(seq 0.05 $1 0.4);do
 done
 sed -e 's/\s\+/,/g' tlumik/WyjscieTlumik.dat > tlumik/modified.txt
 sed -e 's/\s\+/,/g' plaski/WyjscieTlumik.dat > plaski/modified.txt
-octave data/FunkcjaCelu.m
+octave FunkcjaCelu.m
