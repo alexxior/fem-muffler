@@ -2,6 +2,6 @@
 xstr.txt
 xvec.txt
 WynikOptimum.txt
-tlumik
-plaski
+/tlumik/*
+/plaski/*
 *.code-workspace
