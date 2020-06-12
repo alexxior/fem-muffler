@@ -1,10 +1,9 @@
 #!/bin/bash
 
 # stwórz wektor częstotliwości i przygotuj pliki:
-fmin=100
-fmax=500
+read -r x1min x1max x2min x2max fmin fmax <<<$(echo 0.05 0.4 0.2 1 100 500);
 fstep=$3
-echo "Freq vec:  ["$fmin":" $fstep ":"$fmax"] Hz"
+echo "Freq vec:  [$fmin : $fstep : $fmax] Hz"
 freq=()
 for i in $(seq $fmin $fstep $fmax);do freq+=($i);done
 fstr=$(IFS=$' '; echo "${freq[*]}")
@@ -18,7 +17,7 @@ cp tlumik/ELMERSOLVER_STARTINFO plaski/ELMERSOLVER_STARTINFO
 # wykonaj plan eksperymentu:
 echo "--------------EXPERIMENT CCI---------------"
 echo "Calc for:   x1  |  x2  |  x-coords (meters)"
-octave --silent --eval "cci(0.05,0.4,0.2,1)"
+octave --silent --eval "cci($x1min,$x1max,$x2min,$x2max)"
 while read -r x1 x2; do
 	# obliczenia dla tlumika:
 	xline=$(octave --silent --eval "replace($x1,$x2)")
@@ -42,8 +41,8 @@ rm -f tlumik/*.dat plaski/*.dat
 # wykonaj omiatanie z dyskretnym krokiem parametrów:
 echo "--------------DISCRETE SWEEP---------------"
 echo "Calc for:   x1  |  x2  |  x-coords (meters)"
-for x1 in $(seq 0.05 $1 0.4);do
-	for x2 in $(seq 0.2 $2 1);do
+for x1 in $(seq $x1min $1 $x1max);do
+	for x2 in $(seq $x1min $2 $x2max);do
 		if [ $(echo "$x2 > 2*$x1" | bc) -eq 1 ];then
 			# obliczenia dla tlumika:
 			xline=$(octave --silent --eval "replace($x1,$x2)")
