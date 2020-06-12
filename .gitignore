@@ -1,7 +1,6 @@
 *.grd
-xstr.txt
-xvec.txt
-WynikOptimum.txt
+*.txt
 /tlumik/*
 /plaski/*
+/sprawozdanie/*
 *.code-workspace
