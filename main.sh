@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # stwórz wektor częstotliwości i przygotuj pliki:
+fmin=100
+fmax=500
 fstep=$3
-echo "Freq vec:  [100 :" $fstep ": 500] Hz"
+echo "Freq vec:  ["$fmin":" $fstep ":"$fmax"] Hz"
 freq=()
-for i in $(seq 100 $fstep 500);do freq+=($i);done
+for i in $(seq $fmin $fstep $fmax);do freq+=($i);done
 fstr=$(IFS=$' '; echo "${freq[*]}")
 sed "1s/@/$fstr/" data/case.txt > tlumik/case.sif
-number=$(echo "400/$fstep + 1" | bc)
+number=$(echo "($fmax-$fmin)/$fstep + 1" | bc)
 sed -i "15s/@/$number/" tlumik/case.sif
 rm -f tlumik/*.dat plaski/*.dat xvec.txt
 cp tlumik/case.sif plaski/case.sif
