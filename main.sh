@@ -7,6 +7,7 @@ echo "Freq vec:  [$fmin : $fstep : $fmax] Hz"
 freq=()
 for i in $(seq $fmin $fstep $fmax);do freq+=($i);done
 fstr=$(IFS=$' '; echo "${freq[*]}")
+mkdir -p tlumik plaski
 sed "1s/@/$fstr/" data/case.txt > tlumik/case.sif
 number=$(echo "($fmax-$fmin)/$fstep + 1" | bc)
 sed -i "15s/@/$number/" tlumik/case.sif
@@ -34,7 +35,7 @@ while read -r x1 x2; do
 	cd plaski
 	ElmerSolver > /dev/null
 	cd ..
-done < x12.txt
+done < x1x2.txt
 sed -e 's/\s\+/,/g' tlumik/WyjscieTlumik.dat > tlumik/cci.txt
 sed -e 's/\s\+/,/g' plaski/WyjscieTlumik.dat > plaski/cci.txt
 rm -f tlumik/*.dat plaski/*.dat
@@ -66,4 +67,4 @@ done # sformatuj wyniki do analizy zamieniając spacje na przecinki:
 sed -e 's/\s\+/,/g' tlumik/WyjscieTlumik.dat > tlumik/sweep.txt
 sed -e 's/\s\+/,/g' plaski/WyjscieTlumik.dat > plaski/sweep.txt
 # wyznacz IL, optymalizuj i zwróć wynik w konsoli
-octave --silent --eval "FunkcjaCelu($1,$2)"
+octave --silent --eval "FunkcjaCelu($x1min,$1,$x1max,$x2min,$2,$x2max,$fmin,$fmax)"

@@ -1,4 +1,4 @@
-function [x1opt,x2opt] = FunkcjaCelu(x1step,x2step)
+function [x1opt,x2opt] = FunkcjaCelu(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     % wyznacz srednia amplitude plaskiego falowodu
     filename = './plaski/cci.txt';
     M = dlmread(filename,',');
@@ -40,10 +40,6 @@ function [x1opt,x2opt] = FunkcjaCelu(x1step,x2step)
     disp(['Wyniki ILtot dla punktów CCI: ',num2str(ILtot)]);
     [t1,t2] = textread('t1t2.txt','%f %f');
     % wykonanie siatki dla punktów dyskretnych ze sweepowania
-    x1max = 0.4;
-    x1min = 0.05;
-    x2max = 1;
-    x2min = 0.2;
     x1_0 = (x1max + x1min)/2;
     deltax1 = (x1max - x1min)/2;
     x2_0 = (x2max + x2min)/2;
