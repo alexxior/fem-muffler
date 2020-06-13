@@ -4,6 +4,7 @@
 read -r x1min x1max x2min x2max fmin fmax <<<$(echo 0.05 0.4 0.2 1 100 500);
 echo "Freq vec:  [$fmin : $3 : $fmax] Hz"
 freq=() # (fstep=$3)
+flag=${4:-00}
 for i in $(seq $fmin $3 $fmax); do freq+=($i); done
 fstr=$(IFS=$' '; echo "${freq[*]}")
 mkdir -p tlumik plaski
@@ -14,7 +15,7 @@ sed -i "15s/@/$number/" tlumik/case.sif
 cp tlumik/case.sif plaski/case.sif
 echo -e "case.sif\n1" > tlumik/ELMERSOLVER_STARTINFO
 cp tlumik/ELMERSOLVER_STARTINFO plaski/ELMERSOLVER_STARTINFO
-if [ $4 -ne 0 ]; then
+if [ $flag == 10 ] || [ $flag == 11 ]; then
 	# wykonaj plan eksperymentu:
 	echo "--------------EXPERIMENT CCI---------------"
 	echo "Calc for:   x1  |  x2  |  x-coords (meters)"
@@ -40,12 +41,13 @@ if [ $4 -ne 0 ]; then
 	sed -e 's/\s\+/,/g' tlumik/output.dat > data/cci-tlumik.txt
 	sed -e 's/\s\+/,/g' plaski/output.dat > data/cci-plaski.txt
 	rm -f tlumik/*.dat plaski/*.dat
-elif [ $4 -ne 1 ]; then
+fi
+if [ $flag == 01 ] || [ $flag == 11 ]; then
 	# wykonaj omiatanie z dyskretnym krokiem parametrów:
 	echo "--------------DISCRETE SWEEP---------------"
 	echo "Calc for:   x1  |  x2  |  x-coords (meters)"
 	for x1 in $(seq $x1min $1 $x1max);do # (x1step=$1; x2step=$2)
-		for x2 in $(seq $x1min $2 $x2max);do
+		for x2 in $(seq $x2min $2 $x2max);do
 			if [ $(echo "$x2 > 2*$x1" | bc) -eq 1 ];then
 				# obliczenia dla tlumika:
 				xline=$(octave --silent --eval "replace($x1,$x2)")
@@ -67,6 +69,5 @@ elif [ $4 -ne 1 ]; then
 	done # sformatuj wyniki do analizy zamieniając spacje na przecinki:
 	sed -e 's/\s\+/,/g' tlumik/output.dat > data/sweep-tlumik.txt
 	sed -e 's/\s\+/,/g' plaski/output.dat > data/sweep-plaski.txt
-fi
-# wyznacz IL, optymalizuj i zwróć wynik w konsoli
+fi # wyznacz IL, optymalizuj i zwróć wynik w konsoli
 octave --silent --eval "optimize($x1min,$1,$x1max,$x2min,$2,$x2max,$fmin,$fmax)"
