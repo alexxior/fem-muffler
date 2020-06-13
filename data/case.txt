@@ -18,6 +18,8 @@ Simulation
   Timestepping Method = BDF
   BDF Order = 1
   Solver Input File = case.sif
+  !Post File = case.vtu
+  !USPRAWNIENIE: brak tworzenia ciężkich plików ElmerPost
 End
 
 Constants
@@ -56,9 +58,10 @@ End
 
 Solver 2
   Exec Solver = always
+  !USPRAWNIENIE: automatyzacja dopisywania wyników do poprzednich symulacji
   Equation = String SaveScalars
   Procedure = File "SaveData" "SaveScalars"
-  Filename = File "WyjscieTlumik.dat"
+  Filename = File "output.dat"
   Variable 1 = Pressure Wave
   Save Coordinates (4,3) = Real -0.1 0 0\
                                -0.07 0 0\

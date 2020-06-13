@@ -1,5 +1,6 @@
 *.grd
 *.txt
+!/data/*
 /tlumik/*
 /plaski/*
 /sprawozdanie/*

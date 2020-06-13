@@ -6,4 +6,3 @@ function replace(x1,x2)
 		xstr = [xstr, ' ', num2str(i)];
 	end
 	disp(xstr);
-end
