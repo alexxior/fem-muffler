@@ -3,29 +3,29 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     [CCI_intp2bez, k] = sortcalc("cci-plaski",fmin,fmax);
     % posortuj wyniki CCI i wyznacz calk strate wtracenia tlumika
     CCI_intp2tlum = sortcalc("cci-tlumik",fmin,fmax);
-    % wyznaczenie całkowitej straty wtracenia
+    % wyznaczenie calkowitej straty wtracenia
     CCI_ILtot = zeros(1,k);
     for i = 1:k
         CCI_ILtot(i) = 10*log10(CCI_intp2bez(i)/CCI_intp2tlum(i));
     end
     [CCI_t1,CCI_t2] = textread('cci-t1t2.txt','%f %f');
-    % wykonanie siatki dla punktów z CCI
+    % wykonanie siatki dla punktow z planu CCI
     x1_0 = (x1max + x1min)/2;
     dx1 = (x1max - x1min)/2;
     x2_0 = (x2max + x2min)/2;
     dx2 = (x2max - x2min)/2;
-    CCI_x1vec = x1min:0.001:x1max; % gęsta siatka dla interpolacji
+    CCI_x1vec = x1min:0.001:x1max; % gesta siatka dla interpolacji
     CCI_t1vec = (CCI_x1vec-x1_0)/dx1;
     CCI_x2vec = x2min:0.001:x2max;
     CCI_t2vec = (CCI_x2vec-x2_0)/dx2;
-    % wyznaczanie współczynników wielomianu dla planu CCI
+    % wyznaczanie wspolczynnikow wielomianu dla planu CCI
     W = zeros(6);
     for i = 1:6
         W(i,:) = [1,CCI_t1(i),CCI_t2(i),CCI_t1(i)*CCI_t2(i),CCI_t1(i)^2,CCI_t2(i)^2];
     end
     [CCI_T1,CCI_T2] = meshgrid(CCI_t1vec,CCI_t2vec);
-    % wyznaczanie i plotowanie płaszczyzny odpowiedzi
-    a=W\(CCI_ILtot'); % równanie macierzowe x=A^(-1)*b'
+    % wyznaczanie i plotowanie plaszczyzny odpowiedzi
+    a=W\(CCI_ILtot'); % rownanie macierzowe: x=A^(-1)*b'
     ILsurf = a(1)+a(2)*CCI_T1+a(3)*CCI_T2+a(4)*CCI_T1.*CCI_T2+a(5)*CCI_T1.^2+a(6)*CCI_T2.^2;
     px = [-1, (0.1-x1_0)/dx1, 1, 1, -1];
     py = [-1, -1, (0.8-x2_0)/dx2, 1, 1];
@@ -61,7 +61,7 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     %for i = 1:k
     %    SW_ILtot(i) = 10*log10(SW_intp2bez(i)/SW_intp2tlum(i));
     %end
-    % wykonanie siatki dla punktów dyskretnych ze sweepowania
+    % wykonanie siatki dla punktow dyskretnych ze sweepowania
     %SW_x1vec = x1min:x1step:x1max;
     %SW_t1vec = (SW_x1vec-x1_0)/dx1;
     %SW_x2vec = x2min:x2step:x2max;

@@ -7,7 +7,7 @@ function [int_p2,k] = sortcalc(filename,fmin,fmax)
         p = p + sqrt( M(:,i).^2 + M(:,i+1).^2 );
     end
     p2 = (p/4).^2;
-    % sortowanie wyników zgodnie z punktami
+    % sortowanie wynikow zgodnie z punktami
     fstep = M(2,22) - M(1,22);
     number = (fmax-fmin)/fstep + 1;
     p2sort = zeros(number,w/number);
