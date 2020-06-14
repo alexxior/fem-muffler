@@ -7,7 +7,7 @@ freq=() #             (fstep=$3)
 flag=${4:-11}
 for i in $(seq $fmin $3 $fmax); do freq+=($i); done
 fstr=$(IFS=$' '; echo "${freq[*]}")
-mkdir -p tlumik plaski
+mkdir -p tlumik plaski output
 rm -f tlumik/* plaski/* sweep-x1x2.txt
 sed "1s/@/$fstr/" data/case.txt > tlumik/case.sif
 number=$(echo "($fmax-$fmin)/$3 + 1" | bc)
@@ -35,7 +35,7 @@ if [ $flag == 10 ] || [ $flag == 11 ]; then
 		ElmerGrid 1 2 plaski.grd > /dev/null
 		cd plaski
 		ElmerSolver > /dev/null
-		cd .. 
+		cd ..
 	done < ./output/cci-x1x2.txt
 	# sformatuj wyniki do analizy zamieniając spacje na przecinki:
 	sed -e 's/\s\+/,/g' tlumik/output.dat > output/cci-tlumik.txt
@@ -54,16 +54,16 @@ if [ $flag == 01 ] || [ $flag == 11 ]; then
 				xline=$(octave --silent --eval "replace($x1,$x2)")
 				echo "          " $x1 "|" $x2 "| " $xline
 				sed "4s/@/$xline/" data/tlumik.txt > tlumik.grd
-				ElmerGrid 1 2 tlumik.grd > /dev/null
+				ElmerGrid 1 2 tlumik.grd
 				cd tlumik
-				ElmerSolver > /dev/null
+				ElmerSolver
 				cd ..
 				# obliczenia dla płaskiego falowodu:
 				length=$(echo "-15-$x2"  | bc) # wpisać zależnie od długości tłumika!
 				sed "4s/@/$length/" data/plaski.txt > plaski.grd
-				ElmerGrid 1 2 plaski.grd > /dev/null
+				ElmerGrid 1 2 plaski.grd
 				cd plaski
-				ElmerSolver > /dev/null
+				ElmerSolver
 				cd ..
 			fi
 		done

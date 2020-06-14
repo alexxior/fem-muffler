@@ -54,24 +54,24 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     text(Popt(1)+0.3,Popt(2),Popt(3)+1,['(',num2str(Popt(1),2),',',num2str(Popt(2),2),')'],'FontSize',17);
     contour3(CCI_T1,CCI_T2,ILsurf,15,'b');
     % posortuj wyniki sweepa i wyznacz calk strate wtracenia plaskiego falowodu
-    %[SW_intp2bez, k] = sortcalc("sweep-plaski",fmin,fmax);
+    [SW_intp2bez, k] = sortcalc("5sweep-plaski",fmin,fmax);
     % posortuj wyniki sweepa i wyznacz calk strate wtracenia tlumika
-    %SW_intp2tlum = sortcalc("sweep-tlumik",fmin,fmax);
-    %SW_ILtot = zeros(1,k);
-    %for i = 1:k
-    %    SW_ILtot(i) = 10*log10(SW_intp2bez(i)/SW_intp2tlum(i));
-    %end
+    SW_intp2tlum = sortcalc("5sweep-tlumik",fmin,fmax);
+    SW_ILtot = zeros(1,k);
+    for i = 1:k
+        SW_ILtot(i) = 10*log10(SW_intp2bez(i)/SW_intp2tlum(i));
+    end
     % wykonanie siatki dla punktow dyskretnych ze sweepowania
-    %SW_x1vec = x1min:x1step:x1max;
-    %SW_t1vec = (SW_x1vec-x1_0)/dx1;
-    %SW_x2vec = x2min:x2step:x2max;
-    %SW_t2vec = (SW_x2vec-x2_0)/dx2;
-    %[SW_T1,SW_T2] = meshgrid(SW_t1vec,SW_t2vec);
-    %[SW_x1,SW_x2] = textread('sw-x1x2.txt','%f %f');
-    %SW_t1 = (SW_x1-x1_0)/dx1;
-    %SW_t2 = (SW_x2-x2_0)/dx2;
-    %figure();
-    %scatter3(SW_t1,SW_t2,SW_ILtot,'b','filled');
+    SW_x1vec = x1min:x1step:x1max;
+    SW_t1vec = (SW_x1vec-x1_0)/dx1;
+    SW_x2vec = x2min:x2step:x2max;
+    SW_t2vec = (SW_x2vec-x2_0)/dx2;
+    [SW_T1,SW_T2] = meshgrid(SW_t1vec,SW_t2vec);
+    [SW_x1,SW_x2] = textread('sw-x1x2.txt','%f %f');
+    SW_t1 = (SW_x1-x1_0)/dx1;
+    SW_t2 = (SW_x2-x2_0)/dx2;
+    figure();
+    scatter3(SW_t1,SW_t2,SW_ILtot,'b','filled');
     x1opt = num2str(Popt(1)*dx1 + x1_0);
     x2opt = num2str(Popt(2)*dx2 + x2_0);
     disp("Optimized surface inpterpolant coeffs:");
