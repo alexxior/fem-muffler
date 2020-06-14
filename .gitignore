@@ -3,5 +3,7 @@
 !/data/*
 /tlumik/*
 /plaski/*
+/output/*
 /sprawozdanie/*
 *.code-workspace
+optimizeMatlab.m

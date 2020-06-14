@@ -1,5 +1,5 @@
 function cci(x1min,x1max,x2min,x2max)
-    % numeracja od punktu planu CCI (1,0)
+    % numeracja od punktu planu CCI (1,0) przeciwnie do wskazówek zegara
     t1 = [1,1/sqrt(2),0,-1/sqrt(2),-1,-1/sqrt(2),0,1/sqrt(2),0];
     t2 = [0,1/sqrt(2),1,1/sqrt(2),0,-1/sqrt(2),-1,-1/sqrt(2),0];
     x1_0 = (x1max + x1min)/2;
@@ -24,5 +24,5 @@ function cci(x1min,x1max,x2min,x2max)
             it = it+1;
         end
     end
-    dlmwrite('x1x2.txt',x1x2good,'delimiter',' ','precision','%.2f');
-    save("-ascii","t1t2.txt","t1t2good");
+    dlmwrite('./output/cci-x1x2.txt',x1x2good,'delimiter',' ','precision','%.2f');
+    save("-ascii","./output/cci-t1t2.txt","t1t2good");
