@@ -1,4 +1,8 @@
 #!/bin/bash
+if [[ $1 =~ "-h" ]]; then
+  echo "FEM-MUFFLER Syntax: ./`basename $0` [x1step] [x2step] [fstep] [CCI|SWEEP](2x bool)"
+  exit 0
+fi
 echo FEM started: "`date +%H:%M`" # mierzenie czasu dla przewidzenia złożoności
 # stwórz wektor częstotliwości i przygotuj pliki:
 read -r x1min x1max x2min x2max fmin fmax <<<$(echo 0.05 0.4 0.2 1 100 500);
@@ -54,16 +58,16 @@ if [ $flag == 01 ] || [ $flag == 11 ]; then
 				xline=$(octave --silent --eval "replace($x1,$x2)")
 				echo "          " $x1 "|" $x2 "| " $xline
 				sed "4s/@/$xline/" data/tlumik.txt > tlumik.grd
-				ElmerGrid 1 2 tlumik.grd
+				ElmerGrid 1 2 tlumik.grd > /dev/null
 				cd tlumik
-				ElmerSolver
+				ElmerSolver > /dev/null
 				cd ..
 				# obliczenia dla płaskiego falowodu:
 				length=$(echo "-15-$x2"  | bc) # wpisać zależnie od długości tłumika!
 				sed "4s/@/$length/" data/plaski.txt > plaski.grd
-				ElmerGrid 1 2 plaski.grd
+				ElmerGrid 1 2 plaski.grd > /dev/null
 				cd plaski
-				ElmerSolver
+				ElmerSolver > /dev/null
 				cd ..
 			fi
 		done

@@ -32,7 +32,8 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     inpts = inpolygon(CCI_T1,CCI_T2,px,py);
     ILsurf(~inpts) = nan; % wytnij niefizyczny fragment płaszczyzny
     figure('Position', [1000 300 750 600]);
-    surf(CCI_T1,CCI_T2,ILsurf); shading interp;
+    surf(CCI_T1,CCI_T2,ILsurf);
+    shading interp;
     hold on;
     scatter3(CCI_t1,CCI_t2,CCI_ILtot,80,'r','filled');
     set(gca,'FontSize',17);
@@ -53,10 +54,20 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     scatter3(Popt(1),Popt(2),Popt(3),'b','filled');
     text(Popt(1)+0.3,Popt(2),Popt(3)+1,['(',num2str(Popt(1),2),',',num2str(Popt(2),2),')'],'FontSize',17);
     contour3(CCI_T1,CCI_T2,ILsurf,15,'b');
+    titletext = "IL_{tot}(t_1,t_2)=";
+    coeffs = {"","t_1","t_2","t_1t_2","t_1^2","t_2^2"};
+    for i = 1:6
+        if a(i)<0
+            titletext=strcat(titletext,num2str(a(i),2),coeffs(i));
+        else
+            titletext=strcat(titletext,"+",num2str(a(i),2),coeffs(i));
+        end
+    end
+    title(titletext);
     % posortuj wyniki sweepa i wyznacz calk strate wtracenia plaskiego falowodu
-    [SW_intp2bez, k] = sortcalc("5sweep-plaski",fmin,fmax);
+    [SW_intp2bez, k] = sortcalc("sweep-plaski",fmin,fmax);
     % posortuj wyniki sweepa i wyznacz calk strate wtracenia tlumika
-    SW_intp2tlum = sortcalc("5sweep-tlumik",fmin,fmax);
+    SW_intp2tlum = sortcalc("sweep-tlumik",fmin,fmax);
     SW_ILtot = zeros(1,k);
     for i = 1:k
         SW_ILtot(i) = 10*log10(SW_intp2bez(i)/SW_intp2tlum(i));
@@ -70,10 +81,14 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     [SW_x1,SW_x2] = textread('sw-x1x2.txt','%f %f');
     SW_t1 = (SW_x1-x1_0)/dx1;
     SW_t2 = (SW_x2-x2_0)/dx2;
-    figure();
+    figure('Position', [600 100 750 600]);
     scatter3(SW_t1,SW_t2,SW_ILtot,'b','filled');
+    hold on;
+    SW_ILtot_int = mesh(SW_t1vec,SW_t2vec,interp2(SW_t1,SW_t2,SW_ILtot', SW_t1vec, SW_t2vec, "pchip"));
+    surf(SW_T1,SW_T2,SW_ILtot_int);
+    shading interp;
     x1opt = num2str(Popt(1)*dx1 + x1_0);
     x2opt = num2str(Popt(2)*dx2 + x2_0);
     disp("Optimized surface inpterpolant coeffs:");
     disp(num2str(a'));
-    input([line,"Optimum for CCI: x1 = ",x1opt," m, x2 = ",x2opt," m with ILtot = ",num2str(CCI_ILtotmax,2)," dB\n"]);
+   input([line,"Optimum for CCI: x1 = ",x1opt," m, x2 = ",x2opt," m with ILtot = ",num2str(CCI_ILtotmax,2)," dB\n"]);

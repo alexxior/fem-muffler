@@ -4,6 +4,12 @@
 /tlumik/*
 /plaski/*
 /output/*
+/article/*
 /sprawozdanie/*
+!/article/*.tex
+!/article/*.eps
+!/article/*.png
+!/article/*.jpg
+!/article/*.cls
 *.code-workspace
 optimizeMatlab.m
