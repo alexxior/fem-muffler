@@ -1,0 +1,13 @@
+Optimized surface inpterpolant coeffs:
+0.91868     -1.2134     -1.1031    -0.50736     -2.5088    -0.16554
+ILtot values for CCI points:
+t1	t2	ILtot
+0.71	0.71	-2.3
+0	1	-0.35
+-0.71	0.71	-0.087
+-1	0	-0.38
+-0.71	-0.71	0.97
+0	0	0.92
+Optimum for CCI:
+x1 (m)	x2 (m)	ILtot (dB)
+0.172	0.344	1.6
