@@ -1,7 +1,7 @@
 # fem-muffler
 ## Universal FEM model and optimization for acoustic muffler
 ###### Project for MiNPwA MES
-##### Requirements: Elmer CSC, Octave
+##### Requirements: Linux, Elmer CSC, Octave
 ## Syntax & steps:
 0. Clone repo to desired directory: `git clone https://github.com/alexxior/fem-muffler.git .`
 1. Run Bash & go to master directory
@@ -16,3 +16,6 @@
 6. - To only show precalculated data do not append flags in parameters.
     - To only show precalculated optimized muffler charateristics run `octave ./scripts/optILchar.m`
     - To calculate & show precise *Insertion Loss characteristics -* **IL(f)** for new optimized muffler run `./optimized.sh`
+7. If you want to compute FEM simulation for discretized sweeped data **paralelly** (faster, for multicore processors) just run `./runmuffler.sh` in smaller range parameter chunks in different Linux consoles.
+#### Aims for the future:
+    - rewrite Octave scripts to Python 3.8 with Matplotlib & Numpy, because of no full interpolation & optimization in Octave

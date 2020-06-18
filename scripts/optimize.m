@@ -83,11 +83,11 @@ function optimize(x1min,x1step,x1max,x2min,x2step,x2max,fmin,fmax)
     SW_t1 = (SW_x1-x1_0)/dx1;
     SW_t2 = (SW_x2-x2_0)/dx2;
     figure('Position', [600 100 750 600]);
-    scatter3(SW_t1,SW_t2,SW_ILtot,'b','filled');
+    SW_ILtot_interp = griddata(SW_t1,SW_t2,SW_ILtot,SW_T1,SW_T2,'linear'); %cubic not implemented in octave!
+    surf(SW_T1,SW_T2,SW_ILtot_interp);
+    shading interp;
     hold on;
-    %SW_ILtot_int = mesh(SW_t1vec,SW_t2vec,interp2(SW_t1,SW_t2,SW_ILtot', SW_t1vec, SW_t2vec, "pchip"));
-    %surf(SW_T1,SW_T2,SW_ILtot_int);
-    %shading interp;
+    scatter3(SW_t1,SW_t2,SW_ILtot,'b','filled');
     x1opt = num2str(Popt(1)*dx1 + x1_0);
     x2opt = num2str(Popt(2)*dx2 + x2_0);
     disp("Optimized surface inpterpolant coeffs:");
