@@ -18,4 +18,4 @@
     - To calculate & show precise *Insertion Loss characteristics -* **IL(f)** for new optimized muffler run `./optimized.sh`
 7. If you want to compute FEM simulation for discretized sweeped data **paralelly** (faster, for multicore processors) just run `./runmuffler.sh` in smaller range parameter chunks in different Linux consoles.
 #### Aims for the future:
-    - rewrite Octave scripts to Python 3.8 with Matplotlib & Numpy, because of no full interpolation & optimization in Octave
+- rewrite Octave scripts to Python 3.8 with Matplotlib & Numpy, because of no full interpolation & optimization in Octave
