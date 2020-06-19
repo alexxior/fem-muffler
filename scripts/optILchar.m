@@ -1,4 +1,3 @@
-cd output
 % posortuj wynik i wyznacz srednie IL plaskiego falowodu
 M = dlmread("plaski-optimized.txt",',');
 [w,k] = size(M);

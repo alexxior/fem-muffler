@@ -8,6 +8,6 @@ t1	t2	ILtot
 -1	0	-0.38
 -0.71	-0.71	0.97
 0	0	0.92
-Optimum for CCI:
+Optimum for SWEEP:
 x1 (m)	x2 (m)	ILtot (dB)
-0.172	0.344	1.6
+0.25	0.62	0
